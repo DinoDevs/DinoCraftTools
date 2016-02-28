@@ -1,0 +1,14 @@
+{
+	"minecraft" : {
+		"program" : "java",
+		"parameters" : ["-Xmx1024M", "-Xms1024M", "-jar", "<path to server jar>", "nogui"],
+		"data" : "<path to server data folder>",
+		"type" : "<server type (ex bukkit, vanila)>"
+	},
+	"server" : {
+		"port" : 8080,
+		"admins" : {
+			"test" : "test"
+		}
+	}
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Login</title>
+		<!--<link rel="stylesheet" href="style.css">-->
+		<!--<script src="script.js"></script>-->
+	</head>
+	<body>
+		Loged in as [%USER%]<br>
+		<br>
+		<textarea id="console"></textarea><br>
+		<input type="text" value="" id="command-line"/><br>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			$('#command-line').keypress(function(e){
+				if(e.which == 13){
+					var command = $('#command-line').val();
+					$('#command-line').val('');
+					$.ajax({url:"command?"+encodeURIComponent(command), success: function(result){
+						$("#console").html($("#console").html()+result+"\n");
+					}});
+					return false;
+				}
+			});
+		</script>
+	</body>
+</html>
