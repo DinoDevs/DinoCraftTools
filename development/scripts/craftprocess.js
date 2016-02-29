@@ -8,6 +8,10 @@
  // Load Required Modules
 	// Child Process module
 	const child = require('child_process');
+	// File System module
+	const fs = require('fs');
+	// NBT library module
+	var nbt = require(__dirname + '/nbtjs/NBTjs');
 
 // Module
 module.exports = function () {
@@ -15,6 +19,8 @@ module.exports = function () {
 
 	// Info
 	module.info = {};
+	// Configuration
+	module.config = null;
 	// Craft process
 	module.process = null;
 	// Craft Type
@@ -197,14 +203,71 @@ module.exports = function () {
 
 	module.outputType = {
 		chat : function (data, regexp) {
-			console.log("--> ", regexp);
+			//console.log("--> ", regexp);
 		},
 
 		userLoggedIn : function (data, regexp) {
 			var user = regexp[2];
-			console.log("[userLoggedIn "+user+"]");
+			//console.log("[userLoggedIn "+user+"]");
 			//var location = {}
-			module.type.commandSilence("tellraw", "@p[name=" + user + "]", '{"text":"Welcome back ' + user + '","color":"gray"}');
+
+			// Load User Cache file
+			var usercache = fs.readFileSync(module.config.craft.data + "usercache.json").toString();
+			usercache = JSON.parse(usercache);
+			// Get uuid
+			var uuid = false;
+			for (var i = usercache.length - 1; i >= 0; i--) {
+				if(usercache[i].name == user && usercache[i].uuid){
+					uuid = usercache[i].uuid;
+					break;
+				}
+			}
+
+			var xp = 0;
+			var level = 0;
+			var score = 0;
+
+			if(uuid){
+				//module.type.commandSilence("tellraw", "@p[name=" + user + "]", '{"text":"Your uuid is ' + uuid + '","color":"gray"}');
+				
+				var path = module.config.craft.data + "world\\playerdata\\"+uuid+".dat";
+				try {
+					fs.accessSync(path, fs.F_OK);
+					// Do something
+					// NBT decoded object
+					// if needed the data will be unzipped
+					var nbtObj = nbt.decodeFile(path);
+					var user_data = nbtObj.toJson();
+					
+					xp = nbtObj.getByQuery("XpTotal", user_data);
+					if(xp == null) xp = 0;
+
+					level = nbtObj.getByQuery("XpLevel", user_data);
+					if(level == null) level = 0;
+
+					score = nbtObj.getByQuery("Score", user_data);
+					if(score == null) score = 0;
+
+
+				} catch (e) {
+					xp = 0;
+					level = 0;
+					score = 0;
+				}
+			}
+
+			// Display Message after 1 sec
+			setTimeout(function(){
+				// Say Welcome to player on chat
+				module.type.commandSilence("tellraw", "@p[name=" + user + "]", '{"text":"Welcome back ' + user + '","color":"gray"}');
+				// Display player's info to the player
+				module.type.commandSilence("tellraw", "@p[name=" + user + "]", '{"text":"Level ' + level + ' - Xp ' + xp + ' - Score ' + score + '","color":"gray"}');
+
+				// Say Welcome to player on screen
+				module.type.commandSilence("title", "@p[name=" + user + "]", "subtitle", '{"text":"Level ' + level + ' - Xp ' + xp + ' - Score ' + score + '"}');
+				// Display player's info to the player
+				module.type.commandSilence("title", "@p[name=" + user + "]", "title", '{text:"Welcome ",extra:[{text:"' + user + '",italic:true}]}');
+			}, 1000);
 		}
 	}
 
