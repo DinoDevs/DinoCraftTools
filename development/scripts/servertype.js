@@ -159,7 +159,7 @@ module.exports = function (server_type, program_info) {
 			// Log in Match
 			module.outputRegExp.userLoggedIn = {
 				type : "userLoggedIn",
-				regexp : new RegExp(/\[(\d+:\d+:\d+) INFO\]: ([^\[]+)\[\/([^\]]+)\] logged in with entity id (\d+) at \((\[[^\]]+\]|)(-*\d+\.*\d*), (-*\d+\.*\d*), (-*\d+\.*\d*)\)$/i)
+				regexp : new RegExp(/(\[\d+:\d+:\d+\]) \[Server thread\/INFO\]: ([^\[]+)\[\/([^\]]+)\] logged in with entity id (\d+) at \((\[[^\]]+\]|)(-*\d+\.*\d*), (-*\d+\.*\d*), (-*\d+\.*\d*)\)$/i)
 			};
 			module.output.push(module.outputRegExp.userLoggedin);
 
