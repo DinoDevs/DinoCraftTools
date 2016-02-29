@@ -19,12 +19,12 @@
 
 // Initiate Data
 	const config = require(__dirname + '/configurations');
-	if(!config.minecraft) process.exit(0);
+	if(!config.craft) process.exit(0);
 	else console.log(info.tag() + " Configs loaded.");
 
 
 // Server types
-	var serverType = require(__dirname + '/servertype')(config.minecraft.type, info);
+	var serverType = require(__dirname + '/servertype')(config.craft.type, info);
 
 
 // Web Pages
@@ -53,8 +53,9 @@
 // CraftProcess
 	var craft = require(__dirname + '/craftprocess')();
 	craft.info = info;
+	craft.config = config;
 	craft.type = serverType;
-	craft.init(config.minecraft);
+	craft.init(config.craft);
 
 
 

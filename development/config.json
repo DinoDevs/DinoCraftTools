@@ -1,9 +1,9 @@
 {
-	"minecraft" : {
+	"craft" : {
 		"program" : "java",
-		"parameters" : ["-Xmx1024M", "-Xms1024M", "-jar", "<path to server jar>", "nogui"],
-		"data" : "<path to server data folder>",
-		"type" : "<server type (ex bukkit, vanila)>"
+		"parameters" : ["-Xmx1024M", "-Xms1024M", "-jar", "D:\\Users\\Thanos\\Desktop\\craftbukkit\\craftbukkit_server.jar", "nogui"],
+		"data" : "D:\\Users\\Thanos\\Desktop\\craftbukkit\\",
+		"type" : "bukkit"
 	},
 	"server" : {
 		"port" : 8080,
