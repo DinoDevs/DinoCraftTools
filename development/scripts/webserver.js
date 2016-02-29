@@ -118,17 +118,17 @@ module.exports = function () {
 					var token;
 					do{
 						token = crypto.randomBytes(32).toString('hex');
-					}while(sessions[token]);
+					}while(module.sessions[token]);
 
 					// Set a session
-					sessions[token] = {
+					module.sessions[token] = {
 						hash : token,
 						user : username,
 						time : Date.now()
 					};
 
 					// Return Session
-					return sessions[token];
+					return module.sessions[token];
 				}
 
 				// Failed to auth user
@@ -241,7 +241,7 @@ module.exports = function () {
 
 	module.loggedOut = {
 		pages : {
-			login : function(res, url, cookies, session){
+			login : function(res, url, cookies){
 				// Check if user tries to login
 				if(url._GET["username"] && url._GET["password"]){
 					// Authorize user
@@ -282,7 +282,7 @@ module.exports = function () {
 			switch(url.pathname){
 				
 				case '/login':
-					res = module.loggedOut.pages.login(res, url, cookies, session);
+					res = module.loggedOut.pages.login(res, url, cookies);
 					break;
 
 				default:
@@ -294,7 +294,7 @@ module.exports = function () {
 			return res;
 		},
 		response : function(res, url, cookies){
-			res = module.loggedOut.page(res, url, cookies, session);
+			res = module.loggedOut.page(res, url, cookies);
 			return res;
 		}
 	};
@@ -306,7 +306,7 @@ module.exports = function () {
 		// Resolve Cookies
 		var cookies = module.tools.cookies.parse(request);
 		// Resolve Paremeters
-		url._GET = module.tools.query.parse(url);
+		url._GET = module.tools.queries.parse(url);
 
 		var res = {
 			// Block responce
