@@ -21,11 +21,11 @@ CLS
 :: Example, if nodejs.exe is on this folder :
 :: 		"%~dp0nodejs.exe" "%~dp0scripts\dinocrafttools.js"
 :: Example, if nodejs is on global path :
-:: 		nodejs "%~dp0scripts\dinocrafttools.js"
+:: 		node "%~dp0scripts\dinocrafttools.js"
 ::
 
-:: For this let the nodejs.exe be next to this script
-"%~dp0nodejs.exe" "%~dp0scripts\dinocrafttools.js"
+:: node.exe 's path is included on environment path
+node "%~dp0scripts\dinocrafttools.js"
 
 :: Pause before exit
 PAUSE

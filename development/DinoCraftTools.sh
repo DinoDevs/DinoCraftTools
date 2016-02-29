@@ -24,5 +24,5 @@ printf "\033c"
 # 		nodejs "%~dp0scripts\dinocrafttools.js"
 #
 
-# For this let the nodejs binary be next to this script
-./nodejs ./scripts/dinocrafttools.js
+# NodeJs binary's path is included on environment path
+node ./scripts/dinocrafttools.js
