@@ -13,7 +13,7 @@ module.exports = function (preload) {
 	var module = {};
 
 	// Webdata
-	const webpage_path = "core/script/pages/";
+	const webpage_path = __dirname + "/pages/";
 
 	// Preload
 	if(preload) module.preload = preload;
