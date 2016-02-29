@@ -20,8 +20,8 @@
 			admins : {}
 		},
 
-		// Minecraft Configuration
-		minecraft : {
+		// Craft Configuration
+		craft : {
 			program : false,
 			parameters : false,
 			data : false,
@@ -29,9 +29,27 @@
 		}
 
 	};
+// Parameters pass
+	var parameters = {
+		// Default config path
+		configPath : "config.json"
+	}
+
+// Script arguments parse
+	var i=2;
+	while(i < process.argv.length){
+		console.log(process.argv[i]);
+		switch(process.argv[i]){
+			case "-c":
+			case "-Config":
+				parameters.configPath = process.argv[++i];
+		}
+		i++;
+	}
+
 
 // Load Configuration
-	var load = fs.readFileSync('config.json').toString();
+	var load = fs.readFileSync(parameters.configPath).toString();
 	load = JSON.parse(load);
 
 // Load Server Configurations
@@ -49,22 +67,23 @@
 		}
 	}
 
-	// Minecraft Server Info
-	if(load.minecraft && load.minecraft.program && load.minecraft.parameters && load.minecraft.data){
+	// Craft Server Info
+	if(load.craft && load.craft.program && load.craft.parameters && load.craft.data){
 		// Program to run
-		config.minecraft.program = load.minecraft.program;
+		config.craft.program = load.craft.program;
 		// Program's parameters
-		config.minecraft.parameters = load.minecraft.parameters;
+		config.craft.parameters = load.craft.parameters;
 		// Path to server's data
-		config.minecraft.data = load.minecraft.data;
+		config.craft.data = load.craft.data;
 
 		// Get server's type
-		if(load.minecraft.type)
-			config.minecraft.type = load.minecraft.type
+		if(load.craft.type)
+			config.craft.type = load.craft.type
 	}
 	else{
-		config.minecraft = false;
+		config.craft = false;
 	}
 
 // Return Configuration
+	config.parameters = parameters;
 	module.exports = config;
